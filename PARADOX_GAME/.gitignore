@@ -1,0 +1,14 @@
+**/.env
+**/.venv/
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/dist/
+**/*.pyc
+backend/paradox_accounts.sqlite3
+
+backend/logs/
+backend/backups/
+**/*.sqlite3
+**/*.sqlite3-wal
+**/*.sqlite3-shm

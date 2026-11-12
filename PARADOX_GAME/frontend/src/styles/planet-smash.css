@@ -1,0 +1,59 @@
+/* Planet Smash mini-game */
+.smash-page { max-width: var(--container); margin: 0 auto; padding-top: var(--sp-4); padding-bottom: 120px; }
+.smash-head { display: grid; gap: var(--sp-3); }
+.smash-head .mp-back { justify-self: start; }
+.smash-title h1 { color: var(--text); }
+.smash-title p { max-width: 640px; margin-top: var(--sp-1); color: var(--text-muted); }
+.smash-hud { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); margin: var(--sp-4) 0 var(--sp-3); padding: var(--sp-3) var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.smash-stat { display: grid; min-width: 64px; }
+.smash-stat small, .smash-grr small { color: var(--text-subtle); font-size: var(--fs-2xs); font-weight: 800; text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.smash-stat b { color: var(--star-gold); font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1; }
+.smash-grr { display: grid; flex: 1 1 220px; gap: 4px; }
+.smash-grr i { height: 10px; overflow: hidden; border-radius: var(--r-pill); background: var(--progress-track); }
+.smash-grr em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #34d399, #fbbf24, #fb7185); transition: width .5s var(--ease-out); }
+.smash-grr span { color: var(--text-muted); font-size: var(--fs-xs); font-weight: 700; }
+.smash-skins { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: var(--r-pill); }
+.smash-skins button { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: var(--r-pill); color: var(--text-muted); font-size: var(--fs-xs); font-weight: 800; }
+.smash-skins button.on { background: rgba(103, 232, 249, .15); color: var(--text); }
+.smash-calm { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid rgba(52, 211, 153, .45); border-radius: var(--r-pill); color: #bbf7d0; font-size: var(--fs-sm); font-weight: 800; }
+.smash-calm:hover { background: var(--success-soft); }
+.smash-stage { position: relative; overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--r-xl); background: radial-gradient(circle at 20% 15%, rgba(167, 139, 250, .25), transparent 40%), radial-gradient(circle at 85% 30%, rgba(244, 114, 182, .18), transparent 40%), linear-gradient(180deg, #0b1440, #050a1f); box-shadow: var(--shadow-card); }
+.smash-stage::before { position: absolute; inset: 0; background-image: radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent), radial-gradient(1px 1px at 30% 70%, #fff, transparent), radial-gradient(2px 2px at 70% 15%, #fde68a, transparent), radial-gradient(1px 1px at 85% 60%, #fff, transparent), radial-gradient(1.5px 1.5px at 50% 40%, #a5f3fc, transparent); background-size: 300px 260px; content: ""; pointer-events: none; animation: dust-drift 60s linear infinite; }
+.smash-canvas { position: relative; display: block; width: 100%; touch-action: none; cursor: crosshair; }
+.smash-canvas:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.smash-toast { position: absolute; top: 18%; left: 50%; color: #fff; font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 700; text-shadow: 0 4px 0 #9d174d, 0 0 30px rgba(244, 114, 182, .7); white-space: nowrap; transform: translateX(-50%); pointer-events: none; animation: smash-pop 1.4s var(--ease-bounce) forwards; }
+@keyframes smash-pop { 0% { opacity: 0; transform: translateX(-50%) scale(.3) rotate(-8deg); } 20% { opacity: 1; transform: translateX(-50%) scale(1.15) rotate(3deg); } 70% { opacity: 1; transform: translateX(-50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -30px) scale(.9); } }
+.smash-mega { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--r-pill); background: var(--star-gold); color: #2b1d00; font-size: var(--fs-sm); font-weight: 900; pointer-events: none; animation: fab-glow 1.5s infinite; }
+.smash-help { position: absolute; bottom: 92px; left: 50%; padding: 8px 14px; border-radius: var(--r-md); background: rgba(4, 8, 23, .75); color: var(--text); font-size: var(--fs-sm); font-weight: 700; text-align: center; transform: translateX(-50%); pointer-events: none; animation: buddy-bob 2.4s ease-in-out infinite; }
+.smash-help small { color: var(--text-subtle); }
+.smash-fact { margin-top: var(--sp-3); color: var(--text-muted); font-size: var(--fs-sm); }
+.calm-backdrop { position: fixed; inset: 0; z-index: 12600; display: grid; place-items: center; padding: var(--sp-4); background: rgba(2, 6, 23, .82); backdrop-filter: blur(10px); }
+.calm-panel { display: grid; justify-items: center; gap: var(--sp-3); width: min(100%, 440px); padding: var(--sp-6); border: 1px solid rgba(52, 211, 153, .4); border-radius: var(--r-xl); background: radial-gradient(circle at 50% 0, rgba(52, 211, 153, .18), transparent 55%), var(--surface-strong); text-align: center; animation: pa-pop .3s var(--ease-out); }
+.calm-panel p { color: var(--text-muted); font-size: var(--fs-sm); }
+.calm-tip { color: #bbf7d0 !important; }
+.calm-bubble { display: grid; width: 150px; height: 150px; place-items: center; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #bbf7d0, #34d399 60%, #0f766e); color: #053b2c; font-family: var(--font-display); font-size: var(--fs-md); font-weight: 700; transition: transform 4s ease-in-out; box-shadow: 0 0 50px rgba(52, 211, 153, .4); }
+.calm-bubble.in { transform: scale(1.25); }
+.calm-bubble.hold { transform: scale(1.25); }
+.calm-bubble.out { transform: scale(.75); }
+.smash-entry { display: inline-flex; margin: var(--sp-3) auto 0; padding: 8px 16px; border: 1px solid rgba(244, 114, 182, .5); border-radius: var(--r-pill); background: rgba(244, 114, 182, .12); color: #fbcfe8; font-size: var(--fs-sm); font-weight: 800; }
+.smash-entry:hover { background: rgba(244, 114, 182, .22); }
+.home-smash-card { display: grid; justify-items: center; gap: 4px; max-width: 420px; margin: var(--sp-7) auto 0; padding: var(--sp-4) var(--sp-5); border: 1px solid rgba(244, 114, 182, .45); border-radius: var(--r-lg); background: radial-gradient(circle at 50% 0, rgba(244, 114, 182, .2), transparent 60%), var(--surface); }
+.home-smash-card span { font-size: 28px; animation: buddy-bob 2.6s ease-in-out infinite; }
+.home-smash-card b { color: var(--text); font-family: var(--font-display); font-size: var(--fs-lg); }
+.home-smash-card small { color: var(--text-muted); }
+@media (max-width: 640px) { .smash-hud { gap: var(--sp-2); padding: var(--sp-3); } .smash-skins { order: 5; } .smash-help { bottom: 84px; width: 86%; } }
+@media (prefers-reduced-motion: reduce) { .smash-toast, .smash-help, .home-smash-card span, .smash-stage::before { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } .calm-bubble { transition-duration: 1s; } }
+
+/* target chooser + energy meter */
+.smash-targets { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-top: var(--sp-4); }
+.smash-targets-label { color: var(--text); font-size: var(--fs-sm); font-weight: 800; }
+.smash-target-row { display: flex; gap: 6px; max-width: 100%; overflow-x: auto; padding: 2px 2px 6px; scrollbar-width: thin; }
+.st-chip { display: inline-flex; flex-shrink: 0; align-items: center; gap: 5px; padding: 4px 11px 4px 5px; border: 1px solid var(--line); border-radius: var(--r-pill); color: var(--text-muted); font-size: var(--fs-xs); font-weight: 800; transition: border-color var(--dur), background var(--dur); }
+.st-chip:hover { border-color: rgba(244, 114, 182, .55); color: var(--text); }
+.st-chip.on { border-color: var(--neon-pink); background: rgba(244, 114, 182, .16); color: #fff; }
+.st-chip .planet-buddy { filter: none; }
+.smash-energy { display: grid; flex: 1 1 180px; gap: 4px; }
+.smash-energy small { color: var(--text-subtle); font-size: var(--fs-2xs); font-weight: 800; text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.smash-energy i { height: 10px; overflow: hidden; border-radius: var(--r-pill); background: var(--progress-track); }
+.smash-energy em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--hard), var(--medium), var(--easy)); transition: width .5s var(--ease-out); }
+.smash-energy span { color: var(--text-muted); font-size: var(--fs-xs); font-weight: 700; }

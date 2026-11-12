@@ -1,0 +1,192 @@
+.solar-system-page {
+  position: relative;
+  min-height: calc(100vh - 64px);
+  overflow: hidden;
+  padding: 30px 20px 70px;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(20, 56, 103, .38), transparent 52%),
+    radial-gradient(ellipse at 50% 0%, rgba(8, 145, 178, .12), transparent 42%);
+}
+
+.solar-heading { position: relative; z-index: 2; text-align: center; }
+.solar-kicker { display: inline-flex; align-items: center; gap: 8px; color: #8be9f5; font-size: 10px; font-weight: 1000; letter-spacing: .22em; }
+.solar-heading h1 { margin-top: 12px; font-size: clamp(34px, 5vw, 58px); font-weight: 1000; letter-spacing: -.05em; }
+.solar-heading h1 span { color: #67e8f9; text-shadow: 0 0 30px rgba(34, 211, 238, .28); }
+.solar-heading > p { max-width: 650px; margin: 12px auto 0; color: #9aabc2; font-size: 14px; line-height: 1.8; }
+.solar-counts { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 16px; color: #8ca1bd; font-size: 9px; font-weight: 900; letter-spacing: .16em; }
+.solar-counts b { margin-right: 5px; color: #67e8f9; font-size: 16px; }
+.solar-counts i { width: 1px; height: 20px; background: rgba(148, 163, 184, .3); }
+
+.solar-stage-wrap { position: relative; width: min(100%, 1380px); margin: 14px auto 0; }
+.solar-stage { position: relative; width: 100%; height: clamp(700px, 64vw, 840px); min-height: 700px; max-height: 840px; perspective: 1200px; }
+.sun-halo { position: absolute; top: 50%; left: 50%; width: 210px; height: 210px; border-radius: 50%; transform: translate(-50%, -50%); background: rgba(251, 146, 60, .16); filter: blur(38px); animation: sun-breathe 4s ease-in-out infinite; pointer-events: none; }
+.solar-sun { position: absolute; top: 50%; left: 50%; z-index: 5; display: flex; width: 112px; height: 112px; flex-direction: column; align-items: center; justify-content: center; gap: 3px; transform: translate(-50%, -50%); border: 0; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #fff6c5 0%, #ffd166 26%, #fb923c 62%, #c2410c 100%); box-shadow: 0 0 30px #fbbf24, 0 0 85px rgba(251, 146, 60, .7), 0 0 150px rgba(249, 115, 22, .28); color: #57220c; cursor: pointer; animation: sun-breathe 4s ease-in-out infinite; }
+.solar-sun span { position: absolute; inset: -10px; border: 1px solid rgba(251, 191, 36, .35); border-radius: 50%; animation: sun-ring 12s linear infinite; pointer-events: none; }
+.solar-sun b { font-size: 10px; font-weight: 1000; letter-spacing: .18em; }
+
+.planet-orbit-track { position: absolute; top: 50%; left: 50%; width: var(--orbit-w); height: var(--orbit-h); z-index: 1; transform: translate(-50%, -50%); animation: planet-revolution var(--orbit-duration) linear infinite; animation-delay: var(--orbit-delay); pointer-events: none; }
+.orbit-line { position: absolute; inset: 0; border: 1px solid rgba(148, 190, 230, .16); border-radius: 50%; transform: rotateX(7deg); box-shadow: 0 0 14px rgba(34, 211, 238, .035); pointer-events: none; }
+.planet-orbit-position { position: absolute; top: 0; left: 50%; z-index: 2; width: 180px; height: 180px; margin-top: -90px; margin-left: -90px; animation: planet-counter var(--orbit-duration) linear infinite; animation-delay: var(--orbit-delay); pointer-events: none; }
+.planet-anchor { position: absolute; top: 50%; left: 50%; display: flex; width: max-content; max-width: 154px; height: auto; min-width: 0; min-height: 0; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 5px 6px; border: 1px solid transparent; border-radius: 18px; background: rgba(3, 10, 25, .04); color: #fff; cursor: pointer; pointer-events: auto; transform: translate(-50%, -50%); transform-origin: center; transition: background .25s, border-color .25s, filter .25s, scale .25s; }
+.planet-anchor:hover, .planet-anchor:focus-visible, .planet-anchor-hovered { z-index: 20; border-color: rgba(103, 232, 249, .45); background: rgba(8, 47, 73, .32); outline: none; scale: 1.06; }
+.planet-anchor:hover .planet-sphere, .planet-anchor-active .planet-sphere, .planet-anchor-hovered .planet-sphere { filter: brightness(1.35) saturate(1.2); box-shadow: 0 0 38px var(--planet-color), 0 0 86px color-mix(in srgb, var(--planet-color) 55%, transparent); scale: 1.18; }
+.planet-sphere { position: relative; display: block; width: var(--planet-size, 48px); height: var(--planet-size, 48px); flex: none; overflow: visible; border-radius: 50%; background: radial-gradient(circle at 29% 24%, color-mix(in srgb, var(--planet-color) 45%, white), var(--planet-color) 40%, color-mix(in srgb, var(--planet-color) 20%, #07101f) 82%, #020611); box-shadow: inset -9px -8px 16px rgba(0, 0, 0, .62), inset 3px 3px 9px rgba(255, 255, 255, .42), 0 0 22px color-mix(in srgb, var(--planet-color) 42%, transparent); transition: scale .35s, filter .35s, box-shadow .35s; animation: planet-surface 12s linear infinite; }
+.planet-light { position: absolute; top: 12%; left: 18%; width: 30%; height: 19%; border-radius: 50%; background: rgba(255, 255, 255, .58); filter: blur(4px); pointer-events: none; }
+.planet-label { position: absolute; top: calc(100% + 3px); left: 50%; display: flex; max-width: 145px; flex-direction: column; align-items: center; gap: 3px; padding: 5px 9px; border: 1px solid rgba(148, 190, 230, .12); border-radius: 10px; background: rgba(2, 8, 23, .88); backdrop-filter: blur(7px); text-align: center; white-space: nowrap; box-shadow: 0 5px 18px rgba(0, 0, 0, .22); transform: translateX(-50%); pointer-events: none; }
+.planet-label b { font-size: 13px; font-weight: 1000; text-shadow: 0 2px 8px #000; }
+.planet-label small { max-width: 130px; overflow: hidden; color: #c1d2e5; font-size: 9px; text-overflow: ellipsis; }
+.planet-track-selected { z-index: 12; }
+.planet-anchor-active .planet-label { border-color: rgba(103, 232, 249, .55); background: rgba(8, 47, 73, .94); box-shadow: 0 0 22px rgba(34, 211, 238, .22); }
+
+.planet-1 { --planet-size: 68px; background: radial-gradient(circle at 28% 22%, #f2dfcf, #b99a82 43%, #705d50 85%); }
+.planet-2 { --planet-size: 78px; background: radial-gradient(circle at 30% 24%, #fff0b7, #e5b36f 43%, #9d5738 85%); }
+.planet-3 { --planet-size: 90px; background: radial-gradient(circle at 29% 24%, #d9fbff, #329be2 43%, #174c8c 82%, #071a3b); }
+.planet-4 { --planet-size: 82px; background: radial-gradient(circle at 30% 25%, #ffd1a8, #db7453 45%, #6e2c2a 85%); }
+.planet-5 { --planet-size: 126px; background: repeating-linear-gradient(0deg, #9f694d 0 7px, #e5c29b 8px 16px, #c58d68 17px 24px, #f0d7b1 25px 32px); }
+.planet-6 { --planet-size: 118px; background: repeating-linear-gradient(0deg, #a88b60 0 7px, #e6d3a8 8px 16px, #c1a477 17px 24px); }
+.planet-7 { --planet-size: 104px; background: radial-gradient(circle at 30% 25%, #e4ffff, #8bd6d7 45%, #317b93 88%); }
+.planet-8 { --planet-size: 100px; background: radial-gradient(circle at 30% 25%, #b8d2ff, #557be8 45%, #172d89 88%); }
+.earth-land { position: absolute; inset: 22%; border-radius: 35% 55% 42% 48%; background: #55ad69; clip-path: polygon(8% 10%, 53% 0, 70% 22%, 100% 32%, 76% 59%, 65% 100%, 37% 81%, 20% 57%, 0 40%); box-shadow: 0 0 8px rgba(76, 175, 80, .4); }
+.jupiter-storm { position: absolute; right: 17%; top: 51%; width: 28%; height: 13%; border-radius: 50%; background: #a94e3e; box-shadow: inset 0 1px 2px rgba(255, 220, 190, .5); }
+.saturn-rings { position: absolute; z-index: 2; top: 30%; left: -48%; width: 196%; height: 42%; border: 5px solid rgba(224, 203, 158, .82); border-left-color: rgba(224, 203, 158, .25); border-bottom-color: rgba(224, 203, 158, .45); border-radius: 50%; transform: rotate(-22deg); pointer-events: none; }
+.solar-stage-hint { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -2px; color: #8aa3c4; font-size: 10px; font-weight: 900; letter-spacing: .15em; text-align: center; }
+.solar-status, .solar-error { display: flex; max-width: 500px; align-items: center; justify-content: center; gap: 14px; margin: 50px auto; padding: 18px; color: #a5f3fc; text-align: center; }
+.solar-error { color: #fda4af; }
+
+/* Planet click opens a real centered mission dialog, not a section below the fold. */
+.mission-modal-backdrop { position: fixed; inset: 0; z-index: 9500; display: flex; align-items: center; justify-content: center; overflow-y: auto; padding: 24px; background: rgba(1, 5, 16, .78); backdrop-filter: blur(13px); animation: modal-backdrop-in .22s ease both; }
+.mission-modal { position: relative; width: min(100%, 760px); max-height: min(88vh, 850px); overflow-y: auto; padding: 28px 32px 24px; border: 1px solid rgba(103, 232, 249, .3); border-radius: 26px; background: radial-gradient(circle at 15% 12%, rgba(8, 145, 178, .19), transparent 34%), linear-gradient(145deg, rgba(8, 20, 42, .98), rgba(3, 8, 22, .99)); box-shadow: 0 35px 110px rgba(0, 0, 0, .65), 0 0 45px rgba(34, 211, 238, .1); animation: modal-pop-in .42s cubic-bezier(.2, .85, .25, 1.2) both; }
+.mission-modal > .console-close { position: absolute; top: 18px; right: 18px; z-index: 3; }
+.mission-modal-hero { display: flex; align-items: center; gap: 28px; min-height: 170px; padding-right: 35px; }
+.mission-modal-planet-art { display: grid; width: 170px; height: 160px; flex: none; place-items: center; }
+.planet-modal-sphere { width: 142px; height: 142px; animation: modal-planet-float 4s ease-in-out infinite, planet-surface 12s linear infinite; box-shadow: inset -14px -12px 25px rgba(0, 0, 0, .62), inset 4px 4px 12px rgba(255, 255, 255, .42), 0 0 40px color-mix(in srgb, var(--planet-color) 52%, transparent), 0 0 90px color-mix(in srgb, var(--planet-color) 26%, transparent); }
+.planet-modal-sphere .saturn-rings { border-width: 8px; }
+.mission-modal-title-copy h2 { margin-top: 7px; color: #fff; font-size: clamp(30px, 5vw, 44px); font-weight: 1000; letter-spacing: -.04em; }
+.mission-modal-title-copy > p { margin-top: 4px; color: #a8bad0; font-size: 13px; }
+.mission-modal-main-mission { margin-top: 13px; color: #67e8f9; font-size: 16px; font-weight: 900; }
+.mission-modal-title-copy > small { display: block; margin-top: 3px; color: #7187a4; font-size: 10px; }
+.mission-modal-divider { height: 1px; margin: 16px 0 18px; background: linear-gradient(90deg, transparent, rgba(103, 232, 249, .35), transparent); }
+.mission-modal-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mission-modal-section-heading h3 { margin-top: 5px; color: #f1f5f9; font-size: 18px; font-weight: 900; }
+.mission-count-pill { padding: 7px 10px; border: 1px solid rgba(103, 232, 249, .24); border-radius: 999px; background: rgba(34, 211, 238, .08); color: #8be9f5; font-size: 9px; font-weight: 1000; letter-spacing: .12em; white-space: nowrap; }
+.mission-difficulty { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.mission-difficulty > span { margin-right: 5px; color: #8195b1; font-size: 9px; font-weight: 1000; letter-spacing: .16em; }
+.mission-difficulty button { padding: 8px 14px; border: 1px solid rgba(148, 163, 184, .2); border-radius: 999px; color: #a7b8ce; font-size: 10px; font-weight: 900; transition: .2s; }
+.mission-difficulty button:hover { border-color: rgba(103, 232, 249, .45); color: #d9fbff; }
+.mission-difficulty button.active { border-color: rgba(103, 232, 249, .6); background: rgba(34, 211, 238, .16); color: #a5f3fc; box-shadow: 0 0 18px rgba(34, 211, 238, .1); }
+.mission-console-list { margin-top: 10px; }
+.scenario-launch-row { display: flex; width: 100%; align-items: center; gap: 15px; padding: 14px 8px; border: 0; border-bottom: 1px solid rgba(148, 163, 184, .13); border-radius: 9px; background: transparent; color: #fff; text-align: left; cursor: pointer; transition: padding .2s, background .2s, color .2s; }
+.scenario-launch-row:hover { padding-left: 15px; background: rgba(34, 211, 238, .07); color: #a5f3fc; }
+.scenario-launch-row:focus-visible { outline: 2px solid #67e8f9; outline-offset: 2px; }
+.scenario-launch-row:disabled { opacity: .45; cursor: wait; }
+.scenario-index { display: grid; width: 34px; height: 34px; flex: none; place-items: center; border: 1px solid rgba(103, 232, 249, .22); border-radius: 10px; background: rgba(34, 211, 238, .08); color: #67e8f9; font-size: 12px; font-weight: 1000; }
+.scenario-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 4px; }
+.scenario-copy b { font-size: 13px; }
+.scenario-copy small { overflow: hidden; color: #91a5c1; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.scenario-play { display: flex; align-items: center; gap: 4px; color: #67e8f9; font-size: 11px; font-weight: 1000; white-space: nowrap; }
+.mission-console-note { display: flex; align-items: center; gap: 7px; margin-top: 14px; color: #8195b1; font-size: 10px; }
+.mission-loading-copy { padding: 22px 8px; color: #a5f3fc; font-size: 13px; }
+.console-close { display: grid; width: 38px; height: 38px; flex: none; place-items: center; border: 1px solid rgba(148, 163, 184, .22); border-radius: 50%; background: rgba(2, 8, 23, .55); color: #b7c7dc; cursor: pointer; transition: .2s; }
+.console-close:hover { border-color: rgba(103, 232, 249, .6); background: rgba(34, 211, 238, .12); color: #fff; }
+
+/* Flight destination is the selected planet; JS calculates the rocket's exact landing vector. */
+.rocket-flight-overlay { position: fixed; inset: 0; z-index: 10000; overflow: hidden; background: radial-gradient(ellipse at 72% 45%, #153966 0%, #08162f 43%, #020611 100%); animation: flight-fade .35s ease both; }
+.flight-stars { position: absolute; inset: -30%; background-image: radial-gradient(2px 2px at 30px 40px, #fff, transparent), radial-gradient(1px 1px at 90px 120px, #fff, transparent), radial-gradient(2px 2px at 180px 70px, #9eefff, transparent), radial-gradient(1px 1px at 250px 180px, #fff, transparent); background-size: 300px 220px; animation: star-warp 1.8s linear infinite; }
+.flight-copy { position: absolute; z-index: 5; top: 12%; left: 8%; max-width: 440px; }
+.flight-copy > span { color: #67e8f9; font-size: 10px; font-weight: 1000; letter-spacing: .25em; }
+.flight-copy h2 { margin-top: 12px; font-size: clamp(30px, 5vw, 52px); font-weight: 1000; }
+.flight-copy p { margin-top: 8px; color: #c2d0e1; font-size: 17px; }
+.flight-copy small { display: block; margin-top: 24px; color: #82a1c2; font-size: 9px; letter-spacing: .15em; }
+.flight-progress { height: 5px; margin-top: 13px; overflow: hidden; border-radius: 99px; background: rgba(255, 255, 255, .13); }
+.flight-progress i { display: block; width: 0; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #22d3ee, #a5f3fc); animation: flight-progress 5.2s linear forwards; }
+.flight-destination-wrap { position: absolute; top: 35%; left: 68%; display: flex; width: clamp(170px, 27vw, 310px); flex-direction: column; align-items: center; gap: 14px; }
+.flight-destination { width: clamp(170px, 27vw, 310px); height: clamp(170px, 27vw, 310px); animation: destination-approach 5.2s ease-in-out both; box-shadow: inset -18px -15px 32px rgba(0, 0, 0, .62), inset 5px 5px 14px rgba(255, 255, 255, .4), 0 0 60px color-mix(in srgb, var(--planet-color) 58%, transparent), 0 0 130px color-mix(in srgb, var(--planet-color) 25%, transparent); }
+.flight-destination .saturn-rings { border-width: 9px; }
+.flight-destination-label { color: #dffaff; font-size: 11px; font-weight: 1000; letter-spacing: .3em; text-shadow: 0 0 18px #22d3ee; }
+.flight-arrival-ring { position: absolute; top: 50%; left: 50%; width: 120%; height: 120%; border: 1px solid rgba(103, 232, 249, .35); border-radius: 50%; transform: translate(-50%, -50%); animation: arrival-ring 2s ease-out infinite; pointer-events: none; }
+.flight-rocket { position: absolute; z-index: 7; top: 76vh; left: 9vw; width: 72px; height: 72px; color: #f8fafc; filter: drop-shadow(0 0 14px #67e8f9) drop-shadow(0 0 35px rgba(34, 211, 238, .8)); transform-origin: center; animation: rocket-to-target 5.2s cubic-bezier(.42, 0, .2, 1) forwards; }
+.rocket-trail { position: absolute; z-index: 6; top: calc(76vh + 30px); left: calc(9vw - 75px); width: 150px; height: 12px; border-radius: 50%; background: linear-gradient(90deg, transparent, rgba(34, 211, 238, .75), transparent); filter: blur(7px); transform: rotate(-25deg); transform-origin: right center; animation: trail-to-target 5.2s ease-in forwards; }
+.flight-bottom { position: absolute; left: 50%; bottom: 8%; display: flex; align-items: center; gap: 10px; transform: translateX(-50%); color: #a5f3fc; font-size: 10px; font-weight: 1000; letter-spacing: .2em; white-space: nowrap; }
+.flight-dot { width: 8px; height: 8px; border-radius: 50%; background: #22d3ee; box-shadow: 0 0 15px #22d3ee; animation: dot-pulse .8s infinite; }
+.flight-cancel { position: absolute; right: 24px; bottom: 22px; z-index: 8; color: #8195b1; font-size: 11px; text-decoration: underline; cursor: pointer; }
+
+@keyframes planet-revolution { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes planet-counter { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+@keyframes planet-surface { to { filter: hue-rotate(5deg); } }
+@keyframes sun-breathe { 50% { filter: brightness(1.12); scale: 1.05; } }
+@keyframes sun-ring { to { transform: rotate(360deg); } }
+@keyframes modal-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-pop-in { from { opacity: 0; transform: translateY(30px) scale(.92); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes modal-planet-float { 50% { transform: translateY(-8px) rotate(4deg); } }
+@keyframes flight-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes star-warp { to { transform: translate(-90px, 100px); } }
+@keyframes flight-progress { to { width: 100%; } }
+@keyframes destination-approach { 0% { transform: scale(.72); opacity: .35; } 65% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes rocket-to-target { 0% { opacity: 0; transform: translate(0, 0) rotate(-22deg) scale(.8); } 8% { opacity: 1; } 68% { opacity: 1; transform: translate(var(--flight-mid-x), var(--flight-mid-y)) rotate(-15deg) scale(.62); } 91% { opacity: 1; transform: translate(var(--flight-x), var(--flight-y)) rotate(0deg) scale(.28); } 100% { opacity: 0; transform: translate(var(--flight-x), var(--flight-y)) rotate(0deg) scale(.18); } }
+@keyframes trail-to-target { 0% { opacity: 0; transform: translate(0, 0) rotate(-25deg) scaleX(.2); } 12% { opacity: .9; } 68% { opacity: .65; transform: translate(var(--flight-mid-x), var(--flight-mid-y)) rotate(-25deg) scaleX(.8); } 100% { opacity: 0; transform: translate(var(--flight-x), var(--flight-y)) rotate(-25deg) scaleX(.1); } }
+@keyframes arrival-ring { 0% { opacity: .8; scale: .72; } 100% { opacity: 0; scale: 1.22; } }
+@keyframes dot-pulse { 50% { opacity: .35; scale: .7; } }
+
+@media (max-width: 900px) {
+  .solar-stage { height: 700px; min-height: 700px; }
+  .planet-orbit-position { width: 164px; height: 164px; margin-top: -82px; margin-left: -82px; }
+  .planet-anchor { max-width: 138px; gap: 6px; }
+  .planet-5 { --planet-size: 104px; }
+  .planet-6 { --planet-size: 98px; }
+  .planet-7 { --planet-size: 88px; }
+  .planet-8 { --planet-size: 84px; }
+}
+@media (max-width: 640px) {
+  .solar-system-page { padding: 24px 8px 48px; overflow-x: hidden; }
+  .solar-stage { height: 610px; min-height: 610px; }
+  .solar-sun { width: 78px; height: 78px; }
+  .planet-orbit-position { width: 126px; height: 126px; margin-top: -63px; margin-left: -63px; }
+  .planet-anchor { max-width: 104px; gap: 4px; padding: 3px; border-radius: 13px; }
+  .planet-1 { --planet-size: 42px; }
+  .planet-2 { --planet-size: 48px; }
+  .planet-3 { --planet-size: 56px; }
+  .planet-4 { --planet-size: 50px; }
+  .planet-5 { --planet-size: 70px; }
+  .planet-6 { --planet-size: 66px; }
+  .planet-7 { --planet-size: 60px; }
+  .planet-8 { --planet-size: 58px; }
+  .planet-label { max-width: 100px; padding: 3px 5px; }
+  .planet-label b { font-size: 10px; }
+  .planet-label small { max-width: 90px; font-size: 7px; }
+  .solar-stage-hint { padding: 0 8px; font-size: 8px; letter-spacing: .08em; }
+  .mission-modal-backdrop { align-items: flex-end; padding: 8px; }
+  .mission-modal { max-height: 92vh; padding: 20px 16px 18px; border-radius: 20px; }
+  .mission-modal-hero { gap: 12px; min-height: 125px; padding-right: 24px; }
+  .mission-modal-planet-art { width: 112px; height: 120px; }
+  .planet-modal-sphere { width: 100px; height: 100px; }
+  .mission-modal-title-copy h2 { font-size: 28px; }
+  .mission-modal-title-copy > p { font-size: 10px; }
+  .mission-modal-main-mission { font-size: 13px; }
+  .mission-modal-section-heading h3 { font-size: 15px; }
+  .mission-count-pill { font-size: 7px; }
+  .scenario-launch-row { gap: 9px; padding: 12px 4px; }
+  .scenario-copy small { max-width: 180px; font-size: 9px; }
+  .scenario-play { font-size: 9px; }
+  .flight-copy { top: 8%; left: 6%; right: 6%; }
+  .flight-destination-wrap { top: 43%; left: 52%; width: clamp(150px, 38vw, 220px); }
+  .flight-destination { width: clamp(150px, 38vw, 220px); height: clamp(150px, 38vw, 220px); }
+  .flight-rocket { top: 78vh; left: 5vw; }
+  .rocket-trail { top: calc(78vh + 30px); left: calc(5vw - 75px); }
+  .flight-bottom { bottom: 8%; max-width: 90%; font-size: 8px; letter-spacing: .08em; text-align: center; white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .planet-orbit-track, .planet-orbit-position, .planet-sphere, .solar-sun, .flight-stars, .flight-rocket, .flight-destination, .flight-progress i, .mission-modal, .mission-modal-planet-art { animation: none !important; }
+}
+
+/* Sequential planet progression and Pluto's post-Neptune bonus world. */
+.planet-label b{display:flex;align-items:center;justify-content:center;gap:4px}.planet-label-locked{border-color:rgba(251,191,36,.2);background:rgba(31,24,13,.86)}.planet-label-locked b{color:#fcd34d}.planet-label-locked small{color:#d6b979}.planet-label>i{display:block;width:100%;height:3px;margin-top:3px;overflow:hidden;border-radius:99px;background:rgba(148,163,184,.16)}.planet-label>i:after{display:block;width:var(--progress,0%);height:100%;border-radius:99px;background:linear-gradient(90deg,#22d3ee,#34d399);content:"";transition:width .35s}.planet-9{--planet-size:34px;background:radial-gradient(circle at 30% 22%,#f3e6dc,#b9a9a0 44%,#655e67 86%)}.pluto-heart{position:absolute;top:35%;left:28%;width:42%;height:24%;border-radius:48% 52% 50% 48%;background:rgba(238,220,204,.68);filter:blur(1px);transform:rotate(-20deg);pointer-events:none}.planet-anchor:hover .planet-label{border-color:rgba(103,232,249,.55);box-shadow:0 0 20px rgba(34,211,238,.18)}.planet-locked-panel{display:grid;justify-items:center;gap:10px;margin-top:20px;border:1px solid rgba(251,191,36,.2);border-radius:18px;padding:26px 20px;background:rgba(120,53,15,.1);color:#fcd34d;text-align:center}.planet-locked-panel h3{color:#fff;font-size:19px;font-weight:1000}.planet-locked-panel p{max-width:470px;color:#b7c7dc;font-size:12px;line-height:1.8}.planet-progress-track{height:5px;margin-top:15px;overflow:hidden;border-radius:99px;background:rgba(148,163,184,.15)}.planet-progress-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#22d3ee,#34d399);transition:width .4s}.scenario-launch-row.scenario-completed .scenario-index{border-color:rgba(52,211,153,.45);background:rgba(16,185,129,.12);color:#6ee7b7}.scenario-launch-row:disabled{opacity:.38;filter:saturate(.55);cursor:not-allowed}.scenario-launch-row.scenario-completed:disabled{opacity:.7;cursor:pointer}.mission-difficulty button{transition:transform .2s,border-color .2s,background .2s,box-shadow .2s}.mission-difficulty button:hover{transform:translateY(-3px) scale(1.06);border-color:rgba(103,232,249,.65);background:rgba(34,211,238,.12);box-shadow:0 8px 22px rgba(34,211,238,.1)}.kuiper-quiz-panel{margin-top:20px;border:1px solid rgba(196,181,253,.2);border-radius:18px;padding:20px;background:radial-gradient(circle at 100% 0%,rgba(139,92,246,.16),transparent 45%),rgba(15,23,42,.55)}.kuiper-quiz-panel>p{margin-top:14px;color:#a7b8ce;font-size:13px;line-height:1.8}.bonus-quiz-launch{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;margin-top:19px;border:0;border-radius:13px;padding:14px;background:linear-gradient(100deg,#67e8f9,#c4b5fd);color:#071426;font-size:13px;font-weight:1000;transition:transform .2s,box-shadow .2s}.bonus-quiz-launch:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 30px rgba(167,139,250,.18)}
+@media(max-width:900px){.planet-9{--planet-size:30px}}
+@media(max-width:640px){.planet-9{--planet-size:23px}.planet-label-locked small{display:none}.planet-label>i{height:2px}.planet-locked-panel{padding:20px 14px}.kuiper-quiz-panel{padding:15px}}
+
+/* Interaction fix: orbit tracks and invisible orbit boxes must never cover another planet's button. */
+.planet-orbit-track { isolation: isolate; }
+.planet-orbit-position { pointer-events: none; }
+.planet-anchor { pointer-events: auto; touch-action: manipulation; }
+.planet-track-hovered { z-index: 110 !important; }
+.planet-track-selected { z-index: 120 !important; }
+.planet-anchor:focus-visible { outline: 3px solid #67e8f9; outline-offset: 5px; }

@@ -1,0 +1,156 @@
+/* Cartoon cast + lightweight CSS animations. Decorative layers never block clicks. */
+
+/* ---- Nova the astronaut */
+.nova { overflow: visible; }
+.nova .nova-body { transform-origin: 60px 70px; animation: nova-float 5s ease-in-out infinite; }
+.nova .nova-beacon { animation: beacon 1.6s ease-in-out infinite; }
+.nova-wave .nova-arm-r { transform-origin: 91px 68px; animation: wave .9s ease-in-out infinite; }
+.nova-cheer .nova-arm-l { transform-origin: 29px 68px; transform: rotate(150deg); }
+.nova-cheer .nova-arm-r { transform-origin: 91px 68px; transform: rotate(-150deg); }
+.nova-cheer .nova-body { animation: nova-hop .7s var(--ease-bounce) infinite alternate; }
+.nova-think .nova-arm-r { transform-origin: 91px 68px; transform: rotate(-120deg); }
+.nova-face circle { animation: blink 4.5s infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes nova-float { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
+@keyframes nova-hop { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+@keyframes wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-35deg); } }
+@keyframes beacon { 50% { opacity: .3; } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+
+/* ---- planet buddies */
+.planet-buddy { overflow: visible; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .35)); transition: transform var(--dur) var(--ease-bounce); }
+.planet-buddy.pb-idle { animation: buddy-bob 4s ease-in-out infinite; }
+.planet-buddy.pb-happy { animation: buddy-pop .5s var(--ease-bounce); }
+.planet-buddy.pb-cheer { animation: buddy-spin 1.2s var(--ease-bounce); }
+.planet-buddy.pb-sad { animation: buddy-shake .5s ease; }
+.pb-eyes ellipse { animation: blink 5s infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes buddy-bob { 50% { transform: translateY(-5px) rotate(2deg); } }
+@keyframes buddy-pop { 0% { transform: scale(.8); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@keyframes buddy-spin { from { transform: rotate(-20deg) scale(.8); } to { transform: rotate(0) scale(1); } }
+@keyframes buddy-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+/* ---- loading */
+.nova-loading { display: grid; justify-items: center; gap: var(--sp-3); padding: var(--sp-8) var(--sp-4); color: var(--text-muted); font-weight: 700; text-align: center; }
+.nova-loading-orbit { animation: drift 6s ease-in-out infinite; }
+.nova-loading-dots { display: flex; gap: 6px; }
+.nova-loading-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: typing 1.1s ease-in-out infinite; }
+.nova-loading-dots i:nth-child(2) { animation-delay: .15s; }
+.nova-loading-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes drift { 0%, 100% { transform: translate(-18px, 0); } 50% { transform: translate(18px, -10px); } }
+
+/* ---- mission-start space portal (pointer-events: none, auto-removed) */
+.space-portal { position: fixed; inset: 0; z-index: 12300; display: grid; place-items: center; pointer-events: none; background: radial-gradient(circle, rgba(76, 29, 149, .55), rgba(4, 8, 23, .85) 60%); animation: portal-life 1.25s ease forwards; }
+.portal-ring { position: absolute; width: 220px; height: 220px; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent-2); animation: portal-spin 1s linear infinite; }
+.portal-ring.r2 { width: 300px; height: 300px; border-top-color: var(--neon-pink); animation-duration: 1.6s; animation-direction: reverse; }
+.portal-ring.r3 { width: 380px; height: 380px; border-top-color: var(--star-gold); opacity: .6; animation-duration: 2.2s; }
+.portal-core { animation: portal-zoom 1.25s var(--ease-out) forwards; }
+.portal-text { position: absolute; top: calc(50% + 140px); color: var(--text); font-family: var(--font-display); font-size: var(--fs-lg); letter-spacing: .04em; }
+@keyframes portal-life { 0% { opacity: 0; } 15% { opacity: 1; } 60% { opacity: .9; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes portal-spin { to { transform: rotate(360deg); } }
+@keyframes portal-zoom { 0% { transform: scale(.2) rotate(-90deg); } 60% { transform: scale(1.1) rotate(0); } 100% { transform: scale(2.4); opacity: 0; } }
+
+/* ---- comets in the background sky */
+.comet { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px 3px rgba(165, 243, 252, .8); opacity: 0; animation: comet-fly 26s linear infinite; }
+.comet::after { position: absolute; top: 2px; left: 4px; width: 160px; height: 2px; background: linear-gradient(90deg, rgba(165, 243, 252, .8), transparent); transform: rotate(18deg); transform-origin: left; content: ""; }
+.comet.c1 { top: 18%; left: -10%; }
+.comet.c2 { top: 62%; left: -10%; animation-delay: 13s; animation-duration: 31s; }
+@keyframes comet-fly { 0% { opacity: 0; transform: translate(0, 0); } 3% { opacity: 1; } 22% { opacity: 1; } 26% { opacity: 0; transform: translate(130vw, -32vh); } 100% { opacity: 0; transform: translate(130vw, -32vh); } }
+
+/* ---- interactive feedback on answers and buttons */
+.mp-option:active:not(:disabled) { transform: scale(.98); }
+.mp-option.picked .mp-letter { animation: buddy-pop .35s var(--ease-bounce); }
+.mp-btn:active:not(:disabled), .difficulty-option:active { transform: translateY(1px) scale(.98); }
+
+/* ---- AI chat: markdown + sources + actions */
+.md { display: grid; gap: var(--sp-2); }
+.md p, .md li { overflow-wrap: anywhere; }
+.md ul, .md ol { display: grid; gap: 4px; padding-left: 1.25em; }
+.md ul { list-style: disc; }
+.md ol { list-style: decimal; }
+.md strong { color: #fff; }
+.md code { padding: 1px 5px; border-radius: 6px; background: rgba(255, 255, 255, .08); font-size: .9em; }
+.md sup, .md sub { font-size: .7em; }
+.md-h { font-family: var(--font-display); font-weight: 700; }
+.md-cite { display: inline-grid; min-width: 18px; height: 18px; place-items: center; margin: 0 1px; padding: 0 4px; border-radius: 6px; background: rgba(103, 232, 249, .18); color: var(--accent); font-size: 10.5px; font-weight: 900; vertical-align: super; line-height: 1; }
+.ai-sources { display: grid; gap: 4px; margin-top: var(--sp-2); padding-top: var(--sp-2); border-top: 1px dashed var(--line); }
+.ai-sources a { display: flex; gap: 6px; align-items: baseline; color: var(--text-muted); font-size: var(--fs-xs); line-height: 1.4; }
+.ai-sources a:hover, .ai-sources a:focus { color: var(--text); text-decoration: underline; }
+.ai-sources b { display: inline-grid; flex-shrink: 0; min-width: 18px; height: 18px; place-items: center; border-radius: 6px; background: rgba(103, 232, 249, .18); color: var(--accent); font-size: 10.5px; }
+.ai-sources small { color: var(--text-subtle); }
+.ai-quick button.act { border-color: rgba(167, 139, 250, .4); color: #ddd6fe; }
+.ai-quick button.act-bangla { border-color: rgba(52, 211, 153, .45); color: #bbf7d0; }
+
+/* ---- dashboard learning insights */
+.insights-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); }
+.insight-card { display: grid; align-content: start; gap: var(--sp-2); padding: var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.insight-card > b { color: var(--text); font-size: var(--fs-sm); }
+.insight-card p { color: var(--text-muted); font-size: var(--fs-sm); }
+.insight-rec { background: radial-gradient(circle at 100% 0, rgba(252, 211, 77, .14), transparent 55%), var(--surface); }
+.insight-rec .level-pill { justify-self: start; font-size: var(--fs-sm); }
+.insight-bar { display: grid; grid-template-columns: 92px 1fr; align-items: center; gap: 2px var(--sp-2); }
+.insight-bar span { color: var(--level); font-size: var(--fs-xs); font-weight: 800; }
+.insight-bar i { height: 8px; overflow: hidden; border-radius: var(--r-pill); background: var(--progress-track); }
+.insight-bar em { display: block; height: 100%; border-radius: inherit; background: var(--level); transition: width .8s var(--ease-out); }
+.insight-bar small { grid-column: 2; color: var(--text-subtle); font-size: var(--fs-2xs); }
+.topic-row { display: flex; align-items: baseline; gap: var(--sp-2); }
+.topic-row span { flex: 1; color: var(--text); }
+.topic-row.strong { color: var(--success); }
+.topic-row.practice { color: var(--warning); }
+.topic-row small { color: var(--text-subtle); }
+.dash-muted { color: var(--text-subtle); font-size: var(--fs-sm); }
+@media (max-width: 860px) { .insights-grid { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .nova *, .planet-buddy, .planet-buddy *, .nova-loading-orbit, .nova-loading-dots i, .comet, .portal-ring, .portal-core { animation: none !important; }
+  .space-portal { animation: portal-life .6s ease forwards !important; }
+  .comet { display: none; }
+}
+:root[data-motion="calm"] .comet, :root[data-motion="calm"] .portal-ring { display: none; }
+
+/* ---- background cast: UFO flyby, peeking alien, orbiting satellite (decorative only) */
+.bd-ufo { position: absolute; top: 9%; left: -120px; opacity: 0; animation: ufo-fly 38s linear infinite 6s; }
+.bd-ufo svg { animation: ufo-bob 1.6s ease-in-out infinite; overflow: visible; }
+.bd-beam { animation: beam 2.5s ease-in-out infinite; }
+.bd-light { animation: beacon .6s steps(2) infinite; }
+@keyframes ufo-fly { 0% { opacity: 0; transform: translateX(0); } 2% { opacity: .9; } 30% { opacity: .9; } 33% { opacity: 0; transform: translateX(calc(100vw + 240px)); } 100% { opacity: 0; transform: translateX(calc(100vw + 240px)); } }
+@keyframes ufo-bob { 50% { transform: translateY(-8px) rotate(-4deg); } }
+@keyframes beam { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+.bd-alien { position: absolute; bottom: -80px; left: 26%; animation: alien-peek 24s ease-in-out infinite 9s; }
+.bd-alien-hand { transform-origin: 66px 62px; animation: wave .5s ease-in-out infinite; }
+@keyframes alien-peek { 0%, 70%, 100% { transform: translateY(0); } 76%, 92% { transform: translateY(-74px); } }
+.bd-satellite-orbit { position: absolute; top: 14%; right: 9%; width: 160px; height: 160px; animation: portal-spin 30s linear infinite; }
+.bd-satellite { position: absolute; top: -10px; left: 50%; font-size: 22px; opacity: .75; transform: translateX(-50%); }
+@media (max-width: 640px) { .bd-alien { left: 8%; } .bd-satellite-orbit { width: 100px; height: 100px; } }
+@media (prefers-reduced-motion: reduce) { .bd-ufo, .bd-alien, .bd-satellite-orbit { display: none; } }
+:root[data-motion="calm"] .bd-ufo, :root[data-motion="calm"] .bd-alien { display: none; }
+
+/* ---- Space Energy bar (navbar) */
+.energy-bar { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 6px; border: 1px solid var(--line); border-radius: var(--r-pill); background: rgba(9, 17, 41, .7); color: var(--text); font-size: var(--fs-xs); font-weight: 800; transition: border-color var(--dur), transform var(--dur-fast); }
+.energy-bar:hover { border-color: var(--line-strong); transform: translateY(-1px); }
+.energy-face { font-size: 16px; line-height: 1; }
+.energy-track { width: 64px; height: 8px; overflow: hidden; border-radius: var(--r-pill); background: var(--progress-track); }
+.energy-track i { display: block; height: 100%; border-radius: inherit; transition: width .6s var(--ease-out), background .4s; }
+.energy-high .energy-track i { background: linear-gradient(90deg, var(--easy-strong), var(--easy)); }
+.energy-mid .energy-track i { background: linear-gradient(90deg, var(--medium-strong), var(--medium)); }
+.energy-low .energy-track i { background: linear-gradient(90deg, var(--hard-strong), var(--hard)); }
+.energy-low { border-color: var(--hard); animation: energy-pulse 1.6s ease-in-out infinite; }
+.energy-num { min-width: 30px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+@keyframes energy-pulse { 50% { box-shadow: 0 0 0 4px var(--hard-soft); } }
+@media (max-width: 640px) { .energy-track { width: 40px; } .energy-num { display: none; } }
+
+/* ---- Smash Break planet picker */
+.smash-break-backdrop { position: fixed; inset: 0; z-index: 12700; display: grid; place-items: center; overflow-y: auto; padding: var(--sp-4); background: rgba(2, 6, 23, .8); backdrop-filter: blur(10px); animation: pa-pop .2s ease; }
+.smash-break { width: min(100%, 640px); padding: var(--sp-6); border: 1px solid rgba(244, 114, 182, .45); border-radius: var(--r-xl); background: radial-gradient(circle at 0 0, rgba(244, 114, 182, .2), transparent 50%), var(--surface-strong); box-shadow: var(--shadow-pop); }
+.sb-head { display: flex; gap: var(--sp-4); align-items: flex-start; }
+.sb-battery { font-size: 40px; animation: buddy-bob 2s ease-in-out infinite; }
+.sb-head h2 { color: var(--text); font-size: var(--fs-xl); }
+.sb-head p { margin-top: var(--sp-1); color: var(--text-muted); font-size: var(--fs-sm); }
+.sb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--sp-2); margin-top: var(--sp-5); }
+.sb-planet { display: grid; justify-items: center; gap: 4px; padding: var(--sp-3) var(--sp-2); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); color: var(--text); font-size: var(--fs-sm); transition: transform var(--dur-fast) var(--ease-bounce), border-color var(--dur); }
+.sb-planet:hover, .sb-planet:focus-visible { transform: translateY(-3px) scale(1.04); border-color: rgba(244, 114, 182, .7); }
+.sb-planet:hover .planet-buddy { animation: buddy-shake .4s ease 2; }
+.sb-all span { display: grid; height: 58px; place-items: center; font-size: 36px; }
+.sb-actions { display: flex; justify-content: flex-end; margin-top: var(--sp-4); }
+.sb-actions .mp-btn { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 16px; border: 1px solid var(--line); border-radius: var(--r-md); color: var(--text-muted); font-weight: 800; }
+.sb-actions .mp-btn:hover { color: var(--text); border-color: var(--line-strong); }
+@media (max-width: 560px) { .smash-break { padding: var(--sp-4); } .sb-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .energy-low, .sb-battery { animation: none; } }

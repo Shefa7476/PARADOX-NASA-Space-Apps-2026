@@ -1,0 +1,78 @@
+PARADOX QA REPORT: Round 2 (question engine, AI knowledge, design system), 2026-11-11
+=====================================================================================
+
+How it was tested (sandbox limits)
+----------------------------------
+No internet in the build sandbox, so FastAPI, httpx, Vite, react-router-dom,
+lucide-react and three.js could not be installed. Instead:
+- Backend logic was run directly with pytest (a test-only httpx stand-in, not shipped).
+- The frontend was bundled with esbuild + Tailwind v4 + real React 19 (test-only
+  stand-ins for router/icons/three), served by a test adapter calling the REAL
+  backend modules and a real SQLite database, and driven in real Chromium.
+- Not run here: Vite production build, the FastAPI HTTP layer itself, live
+  OpenAI chat/embedding calls, the three.js scene, Windows browsers.
+  The AI paths were tested with the model mocked (prompt, validation, fallback).
+
+Backend pytest: 80 passed, 3 failed
+-----------------------------------
+- test_question_engine.py (new): replays never repeat until the pool is used up,
+  then POOL_EXHAUSTED is raised (never a silent repeat); no semantic duplicates
+  across replays; Easy/Medium/Hard pools disjoint; history persists in SQLite
+  across a simulated restart; two students have independent histories; review
+  mode is explicit; branching follow-ups + story beats; learning insights and the
+  adaptive level recommendation; the briefing decision is not reused across levels;
+  no near-duplicate curated questions within a planet.
+- test_question_generator.py (new, model mocked): a valid grounded question is
+  accepted and stored; wrong option count, answer not in options, duplicate
+  options, no evidence, unsupported claims, paraphrase of a curated question and
+  unsafe text are all rejected; generation failure is reported, not faked.
+- test_ai_tutor.py: questions outside the quiz bank answered from the knowledge
+  base with [n] citations and real https sources; unknown topics are not invented;
+  "why was I wrong" uses the student's choice; related questions; follow-ups with
+  pronouns keep the topic; action buttons use the conversation topic; general
+  questions mid-mission are answered (not hinted); safety filters; rate limits;
+  AI prompt contains numbered EVIDENCE + Bangla instruction; AI failure falls back
+  with a notice.
+- test_simulation.py, test_question_bank.py, accounts, parent auth, branching,
+  copilot, debrief, solar storm: passed.
+- The 3 failures are test_nasa_explorer.py: they need the real httpx library
+  (MockTransport). Code unchanged; expected to pass on Windows.
+
+Browser end-to-end
+------------------
+scripts/e2e-academy.cjs   : 50/50 passed (regression: difficulty buttons, missions,
+                            chat, music, dashboard, mobile, reduced motion).
+scripts/e2e-questions.cjs : 38/38 passed:
+  - Easy has 3 options, Medium/Hard 4; Easy/Medium/Hard share no questions;
+    every question has exactly one correct option.
+  - Replay gives new questions; still no repeats after browser refresh and after
+    logout + login; extra replays only unseen questions; NASA-data questions
+    appear; when new questions run out an explicit message appears, Review mode
+    is labelled; level picker shows remaining new questions.
+  - A second student starts fresh (independent history).
+  - Colours: Easy = emerald rgb(52,211,153), Medium = amber rgb(251,191,36),
+    Hard = coral rgb(255,138,115), each paired with icon + label; feedback uses
+    words and ✓/✕, not colour alone.
+  - Every visible mission button is clickable (not covered).
+  - AI: answers beyond the quiz bank with citation chips and https sources; all
+    5 action buttons present; related questions render as a list; "it" follow-up
+    stays on topic; simulated network failure shows Try again and retry works;
+    long answers don't overflow.
+  - Learning insights panel; page headings use one scale (≤ 36px) across 8 pages;
+    mobile 390px: no horizontal overflow on 4 pages; no console errors.
+
+Measured content per student (no AI key): 15-22 fresh questions per planet per
+level before the "all new questions used" message (about 400 overall).
+
+Not verifiable here: real AI answer/question quality (needs OPENAI_API_KEY),
+Bangla rendering (no Bengali font in sandbox; Windows has Nirmala UI and the app
+loads Noto Sans Bengali), how the music sounds.
+
+Round 3 (fun pack), 2026-11-11
+------------------------------
+scripts/e2e-fun.cjs: 32/32 passed (incl. Space Energy bar + pick-a-planet Smash Break);
+earlier suites re-run: e2e-academy 50/50, e2e-questions 38/38. Original round-3 run: 21/21 (Planet Smash play by mouse, keyboard and touch;
+explosions, combos, Grr-o-meter, planets rebuilding, Calm corner, rocket styles;
+six sing-along songs; 3D scene executed against a three.js API stand-in; background
+characters never block clicks; laptop and mobile layout; no console errors).
+Backend pytest after round 3: 80 passed, 3 failed (same httpx-only NASA tests).

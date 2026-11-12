@@ -1,0 +1,121 @@
+/* =====================================================================
+   PARADOX design tokens: the single source of truth for colour,
+   typography, spacing, radii and motion. Components reference these
+   variables instead of hard-coded values.
+   ===================================================================== */
+:root {
+  /* --- space palette --- */
+  --navy-950: #040817;
+  --navy-900: #081129;
+  --navy-800: #0e1a3d;
+  --navy-700: #16244f;
+  --cosmic-purple: #a78bfa;
+  --cosmic-purple-strong: #8b5cf6;
+  --electric-blue: #67e8f9;
+  --electric-blue-strong: #38bdf8;
+  --neon-pink: #f472b6;
+  --star-gold: #fcd34d;
+
+  /* --- semantic colours --- */
+  --bg: var(--navy-950);
+  --surface: rgba(14, 26, 61, .72);
+  --surface-strong: rgba(9, 17, 41, .94);
+  --surface-raised: rgba(22, 36, 79, .78);
+  --line: rgba(148, 190, 230, .16);
+  --line-strong: rgba(103, 232, 249, .42);
+  --text: #eaf2ff;            /* 15.8:1 on --bg */
+  --text-muted: #a9b8d0;      /* 9.2:1 on --bg */
+  --text-subtle: #8394b3;     /* 6.2:1 on --bg */
+  --accent: var(--electric-blue);
+  --accent-strong: var(--electric-blue-strong);
+  --accent-ink: #04121f;      /* text on accent buttons */
+  --accent-2: var(--cosmic-purple);
+  --focus: #fde68a;
+
+  /* --- difficulty (always paired with an icon + label) --- */
+  --easy: #34d399;   --easy-strong: #10b981; --easy-soft: rgba(16, 185, 129, .16);   /* emerald 🌱 */
+  --medium: #fbbf24; --medium-strong: #f59e0b; --medium-soft: rgba(245, 158, 11, .16); /* amber 🚀 */
+  --hard: #ff8a73;   --hard-strong: #f26b55; --hard-soft: rgba(242, 107, 85, .17);    /* coral 🧠 */
+
+  /* --- status (always paired with ✓ / ✕ / ⚠ / ℹ icons) --- */
+  --success: #34d399; --success-soft: rgba(52, 211, 153, .15); --success-line: rgba(52, 211, 153, .55);
+  --danger: #fb7185;  --danger-soft: rgba(244, 63, 94, .14);  --danger-line: rgba(251, 113, 133, .55);
+  --warning: #fbbf24; --warning-soft: rgba(251, 191, 36, .14);
+  --info: #60a5fa;    --info-soft: rgba(96, 165, 250, .14);
+  --locked: #64748b;
+
+  /* --- progress & achievements --- */
+  --progress-track: rgba(148, 163, 184, .18);
+  --progress-fill: linear-gradient(90deg, var(--electric-blue-strong), var(--cosmic-purple));
+  --progress-good: linear-gradient(90deg, #22d3ee, var(--success));
+  --achievement: var(--star-gold);
+
+  /* --- typography --- */
+  --font-display: 'Fredoka', 'Nunito', 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Nunito', 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', ui-sans-serif, system-ui, sans-serif;
+  --fs-2xs: .6875rem;  /* 11px labels */
+  --fs-xs: .75rem;     /* 12px */
+  --fs-sm: .875rem;    /* 14px */
+  --fs-base: 1rem;     /* 16px */
+  --fs-md: 1.0625rem;  /* 17px */
+  --fs-lg: clamp(1.125rem, 1.05rem + .35vw, 1.3rem);
+  --fs-xl: clamp(1.3rem, 1.15rem + .7vw, 1.65rem);
+  --fs-2xl: clamp(1.6rem, 1.3rem + 1.4vw, 2.25rem);
+  --fs-hero: clamp(2.2rem, 1.5rem + 3.4vw, 3.9rem);
+  --lh-tight: 1.15;
+  --lh-snug: 1.35;
+  --lh-body: 1.6;
+  --tracking-label: .1em;
+
+  /* --- spacing scale (4px base) --- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-7: 32px; --sp-8: 40px; --sp-9: 56px;
+  --gutter: clamp(16px, 3.5vw, 32px);
+  --container: 1200px;
+  --container-narrow: 860px;
+  --section-gap: clamp(24px, 3vw, 40px);
+
+  /* --- radii, shadows, motion --- */
+  --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; --r-pill: 999px;
+  --shadow-card: 0 16px 44px rgba(0, 0, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .04);
+  --shadow-pop: 0 30px 80px rgba(0, 0, 0, .55);
+  --ease-out: cubic-bezier(.2, .85, .3, 1);
+  --ease-bounce: cubic-bezier(.3, 1.6, .5, 1);
+  --dur-fast: .15s; --dur: .25s; --dur-slow: .45s;
+}
+
+/* ---------------------------------------------------------------- base type */
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: var(--fs-base); line-height: var(--lh-body); text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: var(--lh-tight); text-wrap: balance; overflow-wrap: break-word; }
+p, li { text-wrap: pretty; overflow-wrap: break-word; }
+[lang="bn"], :lang(bn) { font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', var(--font-body); line-height: 1.75; }
+
+/* One consistent heading scale for every page (the home hero keeps its size). */
+.app-content h1:not(.home-title) { font-size: var(--fs-2xl); font-weight: 700; letter-spacing: -.01em; }
+.app-content h2 { font-size: var(--fs-xl); font-weight: 700; }
+.app-content h3 { font-size: var(--fs-lg); font-weight: 700; }
+.home-title { font-size: var(--fs-hero) !important; line-height: 1.05 !important; }
+
+/* Small uppercase labels: compact and consistent (not shouting). */
+.auth-eyebrow, .solar-kicker, .mp-kicker, .eyebrow, .home-kicker { font-size: var(--fs-2xs) !important; font-weight: 800 !important; letter-spacing: var(--tracking-label) !important; text-transform: uppercase; }
+
+/* Icons line up with their labels everywhere. */
+button svg, a svg, .nav-link svg { flex-shrink: 0; vertical-align: middle; }
+button, a { -webkit-tap-highlight-color: transparent; }
+
+/* Consistent page containers and gutters. */
+.app-content > main:not(.home-world):not(.solar-system-page) { padding-left: var(--gutter); padding-right: var(--gutter); }
+.app-content > main.account-page, .app-content > main.mission-play { max-width: var(--container); margin-left: auto; margin-right: auto; }
+
+/* Never let long words or AI text break layouts. */
+.app-content { min-width: 0; overflow-wrap: break-word; }
+.app-content :where(section, article, div) { min-width: 0; }
+
+/* ---------------------------------------------------------------- reusable difficulty + status mapping */
+.level-easy { --level: var(--easy); --level-strong: var(--easy-strong); --level-soft: var(--easy-soft); }
+.level-medium { --level: var(--medium); --level-strong: var(--medium-strong); --level-soft: var(--medium-soft); }
+.level-hard { --level: var(--hard); --level-strong: var(--hard-strong); --level-soft: var(--hard-soft); }
+.level-pill { display: inline-flex; align-items: center; gap: var(--sp-1); padding: 3px 10px; border: 1px solid var(--level); border-radius: var(--r-pill); background: var(--level-soft); color: var(--level); font-size: var(--fs-xs); font-weight: 800; }
+
+/* ---------------------------------------------------------------- interactive states */
+:where(button, [role="button"], a.mp-btn):disabled, :where(button)[aria-disabled="true"] { opacity: .45; cursor: not-allowed; filter: saturate(.6); }
+:where(button, a, [role="button"], [role="radio"], input, textarea, select):focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

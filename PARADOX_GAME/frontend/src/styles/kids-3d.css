@@ -1,0 +1,57 @@
+/* Kid-friendly 3D polish. Visual layer only: no game logic is changed here. */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap');
+:root { --kid-font: 'Fredoka', 'Nunito', ui-sans-serif, system-ui, sans-serif; }
+
+.scene3d { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.scene3d canvas { display: block; width: 100%; height: 100%; }
+
+/* Rounder, friendlier headings */
+h1, h2, h3, .home-title, .home-kicker, .auth-eyebrow, .brand-mark + span { font-family: var(--kid-font); }
+.home-title { letter-spacing: -.02em; }
+.home-title span { background: linear-gradient(100deg, #67e8f9, #c4b5fd 45%, #f9a8d4); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 6px 22px rgba(103,232,249,.3)); }
+
+/* Page entrance: pages swing in with 3D depth */
+.app-content > main, .app-content > section, .app-content > div { animation: page-swing .65s cubic-bezier(.2,.85,.25,1.1) both; transform-origin: 50% 0; }
+@keyframes page-swing { from { opacity: 0; transform: perspective(1400px) translateY(28px) rotateX(12deg) scale(.97); } to { opacity: 1; transform: none; } }
+
+/* Chunky 3D candy buttons */
+.home-primary-cta, .auth-submit, .account-primary, .quiz-start-button, .tutorial-next, .quiz-result-actions button {
+  border-radius: 999px; font-family: var(--kid-font); font-weight: 700; letter-spacing: .02em;
+  box-shadow: 0 6px 0 #0e7490, 0 14px 28px rgba(34,211,238,.28), inset 0 2px 0 rgba(255,255,255,.55);
+  transition: transform .15s, box-shadow .15s, filter .15s; position: relative;
+}
+.home-primary-cta:hover, .auth-submit:hover:not(:disabled), .account-primary:hover, .quiz-start-button:hover, .tutorial-next:hover { transform: translateY(-3px) scale(1.03); filter: brightness(1.08); }
+.home-primary-cta:active, .auth-submit:active:not(:disabled), .account-primary:active, .quiz-start-button:active, .tutorial-next:active { transform: translateY(4px); box-shadow: 0 2px 0 #0e7490, 0 6px 14px rgba(34,211,238,.25), inset 0 2px 0 rgba(255,255,255,.4); }
+.home-secondary-cta { border-radius: 999px; box-shadow: 0 5px 0 rgba(255,255,255,.12); transition: transform .15s, box-shadow .15s; }
+.home-secondary-cta:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(255,255,255,.12); }
+.home-primary-cta svg { animation: nudge 1.4s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateX(4px) rotate(-6deg); } }
+
+/* Soft glassy cards with 3D tilt (set by FunEffects) */
+.home-feature, .auth-panel, .achievement-item, .account-stat-grid > div, .planet-progress-row, .profile-panel, .account-welcome, .quiz-start-panel { border-radius: 26px; box-shadow: 0 18px 40px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.07); transform-style: preserve-3d; }
+.tilt-3d { transform: perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) !important; transition: transform .12s ease-out, border-color .3s !important; }
+.home-feature > span, .achievement-item > span, .auth-icon { transform: translateZ(26px); border-radius: 20px; }
+.home-feature h3, .home-feature p { transform: translateZ(14px); }
+
+/* Bouncy navigation */
+.paradox-nav nav a, .paradox-nav nav button { transition: transform .18s cubic-bezier(.3,1.6,.5,1), background .2s, color .2s; }
+.paradox-nav nav a:hover, .paradox-nav nav button:hover { transform: translateY(-2px) scale(1.06); }
+.brand-mark { animation: brand-wobble 4s ease-in-out infinite; }
+@keyframes brand-wobble { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg) translateY(-2px); } }
+
+/* Home: bigger, bobbing rocket */
+.home-rocket-float { filter: drop-shadow(0 0 22px #22d3ee) drop-shadow(0 10px 8px rgba(0,0,0,.35)); }
+.home-sun { box-shadow: 0 0 40px #ffb84d, 0 0 110px rgba(255,166,68,.45), inset -8px -8px 18px rgba(239,107,54,.45); }
+.home-mini-planet { box-shadow: 0 0 18px var(--color,#60a5fa), inset -3px -3px 6px rgba(0,0,0,.3), inset 2px 2px 4px rgba(255,255,255,.35); }
+
+/* Click sparkles */
+.spark-burst { position: fixed; z-index: 99999; pointer-events: none; font-size: 18px; user-select: none; }
+
+/* Friendlier focus + inputs */
+.auth-input { border-radius: 16px; }
+.auth-input:focus { box-shadow: 0 0 0 4px rgba(103,232,249,.2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-content > main, .app-content > section, .app-content > div, .brand-mark, .home-primary-cta svg { animation: none !important; }
+  .tilt-3d { transform: none !important; }
+}

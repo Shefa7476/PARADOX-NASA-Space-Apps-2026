@@ -1,25 +1,27 @@
-# PARADOX Space Academy: one container that builds the React frontend and serves
-# it together with the FastAPI backend at a single public address (e.g. on Render).
+# PARADOX Space Academy – builds the frontend and serves it with the backend.
+# Project code is in PARADOX_GAME/; the updated files at the repo root are placed
+# into their correct folders below.
 
-# 1) Build the frontend
 FROM node:22-slim AS web
+WORKDIR /app
+COPY PARADOX_GAME/frontend/ frontend/
+COPY AdvancedDashboard.jsx BranchingMission.jsx Home.jsx MissionDebrief.jsx SolarStorm.jsx frontend/src/pages/
+COPY AuthContext.jsx frontend/src/context/
+COPY CopilotPanel.jsx frontend/src/components/
+COPY aiMissionApi.js tutorApi.js frontend/src/services/
 WORKDIR /app/frontend
-COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
-COPY frontend/ ./
-# "same-origin" makes the game call the API on the same address it is served from
 ENV VITE_API_BASE_URL=same-origin
 RUN npm run build
 
-# 2) Run the backend and serve the built frontend
 FROM python:3.13-slim
 WORKDIR /app
-COPY backend/requirements.txt backend/requirements.txt
+COPY PARADOX_GAME/backend/requirements.txt backend/requirements.txt
 RUN pip install --no-cache-dir -r backend/requirements.txt
-COPY backend/ backend/
+COPY PARADOX_GAME/backend/ backend/
+COPY main.py backend/main.py
 COPY --from=web /app/frontend/dist frontend/dist
-ENV PARADOX_DB_PATH=/app/data/paradox_accounts.sqlite3 \
-    PYTHONUNBUFFERED=1
+ENV PARADOX_DB_PATH=/app/data/paradox_accounts.sqlite3 PYTHONUNBUFFERED=1
 RUN mkdir -p /app/data
 WORKDIR /app/backend
 EXPOSE 8000

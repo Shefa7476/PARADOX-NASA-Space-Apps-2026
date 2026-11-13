@@ -55,3 +55,5 @@ We asked for separate Easy/Medium/Hard pools, saved question history for every s
 - NASA DONKI: Solar Storm challenge
 - NASA APOD, NeoWs and Mars Rover Photos APIs: Mission Control Data Desk
 - NASA Science planet pages: sources for the AI co-pilot
+
+🚀 Play live: https://paradox-nasa-space-apps-2026.onrender.com 
